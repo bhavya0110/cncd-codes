@@ -1,0 +1,27 @@
+
+def xor(a, b):
+    return "".join("0" if x == y else "1" for x, y in zip(a, b))
+
+def divide(data, poly):
+    n = len(poly)
+    rem = data[:n]
+
+    for i in range(n, len(data) + 1):
+        rem = xor(rem, poly if rem[0] == "1" else "0" * n)[1:]
+        if i < len(data):
+            rem += data[i]
+    return rem
+
+data = input("Enter data: ")
+bits = "".join(format(ord(c), "08b") for c in data)
+
+poly = "10001000000100001"
+crc = divide(bits + "0" * (len(poly)-1), poly)
+code = bits + crc
+
+print("CRC:", crc)
+print("Transmitted data:", code)
+print("Receiver:", "No error" if "1" not in divide(code, poly) else "Error detected")
+
+bad = code[:3] + str(1-int(code[3])) + code[4:]
+print("After bit flip:", "No error" if "1" not in divide(bad, poly) else "Error detected")
