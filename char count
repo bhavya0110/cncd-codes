@@ -1,0 +1,23 @@
+def character_count(frames):
+    stream = ""
+    for f in frames:
+        stream += str(len(f) + 1) + f
+    return stream
+
+def decode_character_count(stream):
+    frames = []
+    i = 0
+
+    while i < len(stream):
+        n = int(stream[i])
+        frames.append(stream[i+1:i+n])
+        i += n
+
+    return frames
+
+frames = input("Enter frames separated by space: ").split()
+
+s = character_count(frames)
+
+print("Transmitted stream:", s)
+print("Received frames:", decode_character_count(s))
