@@ -1,0 +1,46 @@
+def bit_stuff(bits):
+    out = ""
+    count = 0
+
+    for b in bits:
+        out += b
+
+        if b == "1":
+            count += 1
+            if count == 5:
+                out += "0"
+                count = 0
+        else:
+            count = 0
+
+    return "01111110" + out + "01111110"
+
+
+def bit_destuff(frame):
+    data = frame[8:-8]
+    out = ""
+    count = 0
+    i = 0
+
+    while i < len(data):
+        out += data[i]
+
+        if data[i] == "1":
+            count += 1
+            if count == 5:
+                i += 1
+                count = 0
+        else:
+            count = 0
+
+        i += 1
+
+    return out
+
+
+bits = input("Enter bit string: ")
+
+f = bit_stuff(bits)
+
+print("Stuffed frame:", f)
+print("After de-stuffing:", bit_destuff(f))
